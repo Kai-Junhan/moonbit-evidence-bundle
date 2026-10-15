@@ -1,0 +1,123 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Zlj6566/moonbit-evidence-bundle/src"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn artifact_entry(String, String, String, command? : String, detail? : String) -> EvidenceEntry
+
+pub fn artifact_kind() -> EvidenceKind
+
+pub fn build_kind() -> EvidenceKind
+
+pub fn canonical_fingerprint(EvidenceBundle) -> String
+
+pub fn check_run_entry(String, String, String, command? : String) -> EvidenceEntry?
+
+pub fn compare_fingerprints(EvidenceBundle, EvidenceBundle) -> Bool
+
+pub fn dependency_kind() -> EvidenceKind
+
+pub fn diagnostic_kind() -> EvidenceKind
+
+pub fn diff(EvidenceBundle, EvidenceBundle) -> EvidenceDiff
+
+pub fn failed() -> EvidenceStatus
+
+pub fn parse_check_summary(String) -> CheckSummary?
+
+pub fn parse_test_run_summary(String) -> TestRunSummary?
+
+pub fn passed() -> EvidenceStatus
+
+pub fn release_gate(EvidenceBundle) -> GateDecision
+
+pub fn run_kind() -> EvidenceKind
+
+pub fn sha256_hex(String) -> String
+
+pub fn sha256_hex_of_bytes(Array[Byte]) -> String
+
+pub fn skipped() -> EvidenceStatus
+
+pub fn test_kind() -> EvidenceKind
+
+pub fn test_run_entry(String, String, String, command? : String) -> EvidenceEntry?
+
+// Errors
+
+// Types and methods
+pub struct CheckSummary {
+  warnings : Int
+  errors : Int
+} derive(Eq, ToJson, @debug.Debug)
+pub fn CheckSummary::description(Self) -> String
+pub fn CheckSummary::status(Self) -> EvidenceStatus
+
+pub struct EvidenceBundle {
+  format_version : String
+  project : String
+  toolchain : String
+  entries : Array[EvidenceEntry]
+} derive(Eq, ToJson, @debug.Debug)
+pub fn EvidenceBundle::add(Self, EvidenceEntry) -> Self
+pub fn EvidenceBundle::as_json(Self) -> Json
+pub fn EvidenceBundle::digest(Self) -> String
+pub fn EvidenceBundle::entry_count(Self) -> Int
+pub fn EvidenceBundle::failed(Self) -> Array[EvidenceEntry]
+pub fn EvidenceBundle::new(String, String) -> Self
+pub fn EvidenceBundle::project_name(Self) -> String
+
+pub enum EvidenceDiff {
+  Identical(String)
+  Changed(String, String)
+} derive(Eq, @debug.Debug)
+
+pub struct EvidenceEntry {
+  id : String
+  kind : EvidenceKind
+  status : EvidenceStatus
+  label : String
+  command : String?
+  detail : String?
+  digest : String?
+} derive(Eq, ToJson, @debug.Debug)
+pub fn EvidenceEntry::as_json(Self) -> Json
+pub fn EvidenceEntry::new(String, EvidenceKind, EvidenceStatus, String, command? : String, detail? : String, digest? : String) -> Self
+
+pub enum EvidenceKind {
+  Build
+  Test
+  Run
+  Diagnostic
+  Artifact
+  Dependency
+} derive(Eq, ToJson, @debug.Debug)
+
+pub enum EvidenceStatus {
+  Passed
+  Failed
+  Skipped
+} derive(Eq, ToJson, @debug.Debug)
+
+pub enum GateDecision {
+  ReadyToShip
+  Blocked(Array[EvidenceEntry])
+} derive(Eq, @debug.Debug)
+pub fn GateDecision::blockers(Self) -> Array[EvidenceEntry]
+pub fn GateDecision::is_ready(Self) -> Bool
+
+pub struct TestRunSummary {
+  total : Int
+  passed : Int
+  failed : Int
+} derive(Eq, ToJson, @debug.Debug)
+pub fn TestRunSummary::description(Self) -> String
+pub fn TestRunSummary::status(Self) -> EvidenceStatus
+
+// Type aliases
+
+// Traits
+
