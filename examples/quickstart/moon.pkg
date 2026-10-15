@@ -1,0 +1,7 @@
+import {
+  "Kai-Junhan/moonbit-evidence-bundle/src" @evidence,
+}
+
+options(
+  "is-main": true,
+)

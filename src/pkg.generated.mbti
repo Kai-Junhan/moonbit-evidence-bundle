@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "Zlj6566/moonbit-evidence-bundle/src"
+package "Kai-Junhan/moonbit-evidence-bundle/src"
 
 import {
   "moonbitlang/core/debug",

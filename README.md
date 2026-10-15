@@ -1,5 +1,8 @@
 # moonbit-evidence-bundle
 
+[![CI](https://github.com/Kai-Junhan/moonbit-evidence-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/Kai-Junhan/moonbit-evidence-bundle/actions/workflows/ci.yml)
+[![Mooncakes](https://img.shields.io/badge/Mooncakes-pending-blue)](https://mooncakes.io/)
+
 `moonbit-evidence-bundle` 是一个面向 MoonBit 项目交付、复现和发布治理的证据包协议与工具链。
 
 它不是另一个 CI Runner、测试框架、日志系统、SARIF 解析器或 JSON Schema Validator。它解决的是更上层的问题：
@@ -20,7 +23,7 @@
 
 ## 核心能力
 
-当前骨架已经实现：
+当前实现：
 
 - `EvidenceBundle`：项目、格式版本、工具链和证据条目的统一容器。
 - `EvidenceEntry`：构建、测试、运行、诊断、产物、依赖六类证据。
@@ -31,7 +34,44 @@
 - 采集器适配器：从 `moon test` 原始输出解析 `Total tests / passed / failed` 摘要，从 `moon check` 原始输出解析 `warnings / errors` 计数，产出 `Test` / `Build` 证据条目。
 - Release gate：根据失败证据判定 `ReadyToShip` 或 `Blocked`，并列出阻断条目。
 - 纯 MoonBit SHA-256（FIPS 180-4，无外部依赖）：`sha256_hex`、产物条目的 `digest` 字段和 `bundle.digest()`；使用 NIST 标准向量与独立工具（node/python）双重交叉验证。
+- GitHub Actions CI：在 `wasm-gc` 和 `js` 目标上执行格式检查、检查、构建和测试。
 - Expect Snapshot Test，锁定协议输出。
+
+## 安装与快速开始
+
+项目发布到 Mooncakes 后，在 MoonBit 项目中执行：
+
+```sh
+moon add Kai-Junhan/moonbit-evidence-bundle
+```
+
+然后通过 `@evidence` 解析 Moon CLI 输出并生成证据条目：
+
+```moonbit
+let bundle = @evidence.EvidenceBundle::new("demo", "moon 0.1.20260703")
+let bundle = match @evidence.test_run_entry(
+  "tests",
+  "run tests",
+  "Total tests: 3, passed: 3, failed: 0.",
+  command="moon test --target wasm-gc",
+) {
+  Some(entry) => bundle.add(entry)
+  None => bundle
+}
+println(bundle.digest())
+```
+
+完整的最小示例位于 `examples/quickstart`，运行：
+
+```sh
+moon run --target js examples/quickstart
+```
+
+完整演示位于 `cmd/demo`，展示测试/check 适配、bundle diff、SHA-256 和 release gate：
+
+```sh
+moon run --target js cmd/demo
+```
 
 ## 产品路线
 
@@ -132,6 +172,7 @@ JSON bundle / CI artifact / Moocakes quality view
 moon fmt
 moon info
 moon check --target wasm-gc --deny-warn
+moon build --target wasm-gc
 moon test --target wasm-gc --deny-warn
 moon run --target wasm-gc cmd/demo
 ```
@@ -146,6 +187,8 @@ Demo 会生成两次内存中的证据包：第一次全部通过，第二次包
 - 可复现的 CLI Demo 和样例 bundle。
 - 协议层、采集器和差异分析测试。
 - MoonBit 多目标构建记录。
+- GitHub Actions 持续集成，覆盖格式检查、检查、构建和测试。
+- Mooncakes 发布包（发布前请运行 `moon publish --dry-run`）。
 - 演示视频：从 Moon 项目执行检查到生成 bundle，再到两次 bundle diff。
 
 ## 许可证

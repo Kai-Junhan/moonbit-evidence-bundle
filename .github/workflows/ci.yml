@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    name: Verify (${{ matrix.target }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [wasm-gc, js]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup MoonBit
+        uses: hustcer/setup-moonbit@v1
+        with:
+          version: 0.1.20260703
+      - name: Format
+        run: moon fmt --check
+      - name: Check
+        run: moon check --target ${{ matrix.target }} --deny-warn
+      - name: Build
+        run: moon build --target ${{ matrix.target }}
+      - name: Test
+        run: moon test --target ${{ matrix.target }} --deny-warn
+
+  demo:
+    name: Run demo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup MoonBit
+        uses: hustcer/setup-moonbit@v1
+        with:
+          version: 0.1.20260703
+      - name: Run demo
+        run: moon run --target js cmd/demo
