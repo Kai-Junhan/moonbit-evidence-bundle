@@ -69,6 +69,12 @@ println(bundle.digest())
 moon run --target js examples/quickstart
 ```
 
+JUnit 适配器示例位于 `examples/junit`，运行：
+
+```sh
+moon run --target js examples/junit
+```
+
 完整演示位于 `cmd/demo`，展示测试/check 适配、bundle diff、SHA-256、validation 和 release gate：
 
 ```sh
