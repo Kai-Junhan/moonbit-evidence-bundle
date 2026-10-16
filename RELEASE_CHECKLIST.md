@@ -30,9 +30,9 @@ This checklist maps the repository to the MoonBit Hackathon acceptance requireme
 
 ## Before Submission
 
-- [ ] Publish `Kai-Junhan/moonbit-evidence-bundle` to Mooncakes
-- [ ] Confirm the authenticated Mooncakes username is `Kai-Junhan`
-- [ ] Confirm the latest GitHub Actions run is green
+- [x] Publish `Kai-Junhan/moonbit-evidence-bundle` to Mooncakes at `0.1.0`
+- [x] Confirm the authenticated Mooncakes username is `Kai-Junhan`
+- [x] Confirm the latest GitHub Actions run is green
 - [ ] Submit the one-page proposal with at least three concrete use cases
 - [ ] Join the event group and use the GitHub ID as the group nickname
 - [ ] Record the demo video if requested by the event staff

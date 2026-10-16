@@ -1,7 +1,7 @@
 # moonbit-evidence-bundle
 
 [![CI](https://github.com/Kai-Junhan/moonbit-evidence-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/Kai-Junhan/moonbit-evidence-bundle/actions/workflows/ci.yml)
-[![Mooncakes](https://img.shields.io/badge/Mooncakes-pending-blue)](https://mooncakes.io/)
+[![Mooncakes](https://img.shields.io/badge/Mooncakes-v0.1.0-2ea44f)](https://mooncakes.io/)
 
 `moonbit-evidence-bundle` 是一个面向 MoonBit 项目交付、复现和发布治理的证据包协议与工具链。
 
@@ -41,7 +41,7 @@
 
 ## 安装与快速开始
 
-项目发布到 Mooncakes 后，在 MoonBit 项目中执行：
+项目已发布到 Mooncakes，在 MoonBit 项目中执行：
 
 ```sh
 moon add Kai-Junhan/moonbit-evidence-bundle
@@ -197,7 +197,7 @@ Demo 会生成两次内存中的证据包：第一次全部通过，第二次包
 - 协议层、采集器和差异分析测试。
 - MoonBit 多目标构建记录。
 - GitHub Actions 持续集成，覆盖格式化、检查、构建和测试。
-- Mooncakes 发布包（发布前请运行 `moon publish --dry-run`）。
+- Mooncakes 包 `Kai-Junhan/moonbit-evidence-bundle@0.1.0`。
 - 演示视频：从 Moon 项目执行检查到生成 bundle，再到两次 bundle diff。
 
 ## 许可证
