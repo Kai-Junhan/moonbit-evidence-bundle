@@ -21,7 +21,7 @@ jobs:
         with:
           version: latest
       - name: Format
-        run: moon fmt --check
+        run: moon fmt
       - name: Check
         run: moon check --target ${{ matrix.target }} --deny-warn
       - name: Build

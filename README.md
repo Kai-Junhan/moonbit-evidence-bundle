@@ -36,7 +36,7 @@
 - Release gate：根据失败证据判定 `ReadyToShip` 或 `Blocked`，并列出阻断条目。
 - Bundle validation：校验协议版本、必填字段、entry ID 唯一性和 SHA-256 digest 格式。
 - 纯 MoonBit SHA-256（FIPS 180-4，无外部依赖）：`sha256_hex`、产物条目的 `digest` 字段和 `bundle.digest()`；使用 NIST 标准向量与独立工具（node/python）双重交叉验证。
-- GitHub Actions CI：在 `wasm-gc` 和 `js` 目标上执行格式检查、检查、构建和测试。
+- GitHub Actions CI：在 `wasm-gc` 和 `js` 目标上执行格式化、检查、构建和测试。
 - Expect Snapshot Test，锁定协议输出。
 
 ## 安装与快速开始
@@ -190,7 +190,7 @@ Demo 会生成两次内存中的证据包：第一次全部通过，第二次包
 - 可复现的 CLI Demo 和样例 bundle。
 - 协议层、采集器和差异分析测试。
 - MoonBit 多目标构建记录。
-- GitHub Actions 持续集成，覆盖格式检查、检查、构建和测试。
+- GitHub Actions 持续集成，覆盖格式化、检查、构建和测试。
 - Mooncakes 发布包（发布前请运行 `moon publish --dry-run`）。
 - 演示视频：从 Moon 项目执行检查到生成 bundle，再到两次 bundle diff。
 
