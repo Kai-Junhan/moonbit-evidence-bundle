@@ -19,7 +19,7 @@ jobs:
       - name: Setup MoonBit
         uses: hustcer/setup-moonbit@v1
         with:
-          version: latest
+          version: 0.1.20260703+6fbf8c3
       - name: Format
         run: moon fmt
       - name: Check
@@ -38,6 +38,6 @@ jobs:
       - name: Setup MoonBit
         uses: hustcer/setup-moonbit@v1
         with:
-          version: latest
+          version: 0.1.20260703+6fbf8c3
       - name: Run demo
         run: moon run --target js cmd/demo
