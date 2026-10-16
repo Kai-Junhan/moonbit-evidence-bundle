@@ -81,6 +81,15 @@ fn main {
     None => println("artifact sha256: none")
   }
   println("bundle sha256: " + first.digest())
+  match @evidence.validate(first) {
+    @evidence.Valid => println("bundle validation: valid")
+    @evidence.Invalid(issues) =>
+      println(
+        "bundle validation: invalid (" +
+        issues.length().to_string() +
+        " issues)",
+      )
+  }
 }
 
 ///|

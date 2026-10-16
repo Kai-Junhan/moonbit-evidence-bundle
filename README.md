@@ -34,6 +34,7 @@
 - 采集器适配器：从 `moon test` 原始输出解析 `Total tests / passed / failed` 摘要，从 `moon check` 原始输出解析 `warnings / errors` 计数，产出 `Test` / `Build` 证据条目。
 - JUnit XML 适配器：汇总单套件、多套件和 root-only 报告，产出统一的 `Test` 证据条目。
 - Release gate：根据失败证据判定 `ReadyToShip` 或 `Blocked`，并列出阻断条目。
+- Bundle validation：校验协议版本、必填字段、entry ID 唯一性和 SHA-256 digest 格式。
 - 纯 MoonBit SHA-256（FIPS 180-4，无外部依赖）：`sha256_hex`、产物条目的 `digest` 字段和 `bundle.digest()`；使用 NIST 标准向量与独立工具（node/python）双重交叉验证。
 - GitHub Actions CI：在 `wasm-gc` 和 `js` 目标上执行格式检查、检查、构建和测试。
 - Expect Snapshot Test，锁定协议输出。
@@ -68,7 +69,7 @@ println(bundle.digest())
 moon run --target js examples/quickstart
 ```
 
-完整演示位于 `cmd/demo`，展示测试/check 适配、bundle diff、SHA-256 和 release gate：
+完整演示位于 `cmd/demo`，展示测试/check 适配、bundle diff、SHA-256、validation 和 release gate：
 
 ```sh
 moon run --target js cmd/demo
@@ -145,6 +146,7 @@ moon run --target js cmd/demo
 - `command` / `detail` / `digest` 缺失时为 `null`。
 - `digest` 为条目内容的小写 SHA-256 hex；只保存摘要，不保存原始内容。
 - `canonical_fingerprint` 为规范化 JSON 字符串；`bundle.digest()` 为其 SHA-256。
+- `validate(bundle)` 返回 `Valid` 或带问题列表的 `Invalid`，用于发布前结构校验。
 
 ## 架构
 

@@ -25,9 +25,19 @@ fn main {
   }
   println(bundle.as_json().stringify(indent=2))
   println("digest: " + bundle.digest())
+  println("validation: " + bundle_validation_text(@evidence.validate(bundle)))
   match @evidence.release_gate(bundle) {
     @evidence.ReadyToShip => println("release gate: ready")
     @evidence.Blocked(blockers) =>
       println("release gate: blocked by " + blockers.length().to_string())
+  }
+}
+
+///|
+fn bundle_validation_text(result : @evidence.BundleValidation) -> String {
+  match result {
+    @evidence.Valid => "valid"
+    @evidence.Invalid(issues) =>
+      "invalid (" + issues.length().to_string() + " issues)"
   }
 }

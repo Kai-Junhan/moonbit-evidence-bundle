@@ -50,9 +50,18 @@ pub fn test_kind() -> EvidenceKind
 
 pub fn test_run_entry(String, String, String, command? : String) -> EvidenceEntry?
 
+pub fn validate(EvidenceBundle) -> BundleValidation
+
 // Errors
 
 // Types and methods
+pub enum BundleValidation {
+  Valid
+  Invalid(Array[String])
+} derive(Eq, @debug.Debug)
+pub fn BundleValidation::is_valid(Self) -> Bool
+pub fn BundleValidation::issues(Self) -> Array[String]
+
 pub struct CheckSummary {
   warnings : Int
   errors : Int

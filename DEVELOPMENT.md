@@ -37,3 +37,4 @@ Adapters parse only these documented summary lines (verified on `moon 0.1.202607
 - `moon check` success: `Finished. moon: ran 2 tasks, now up to date` or `Finished. moon: ran 2 tasks, now up to date (1 warnings, 0 errors)`
 - `moon check` failure: `Failed with 0 warnings, 1 errors.`
 - JUnit XML: numeric `tests`, `failures`, `errors` and `skipped` attributes on `testsuite` elements; multiple suites are summed.
+- Bundle validation rejects unsupported format versions, missing project/toolchain/entry fields, duplicate IDs and malformed digests before release.
