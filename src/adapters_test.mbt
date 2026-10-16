@@ -99,3 +99,60 @@ test "unparseable check output yields no summary" {
   )
   assert_true(check_run_entry("check", "run check", "boom") is None)
 }
+
+///|
+test "parses one junit suite" {
+  let xml = "<testsuite name=\"unit\" tests=\"3\" failures=\"1\" errors=\"0\" skipped=\"1\"><testcase /></testsuite>"
+  let summary = parse_junit_summary(xml).unwrap()
+  assert_eq(summary.tests, 3)
+  assert_eq(summary.failures, 1)
+  assert_eq(summary.errors, 0)
+  assert_eq(summary.skipped, 1)
+  assert_true(summary.status() == failed())
+  debug_inspect(
+    summary,
+    content="{ tests: 3, failures: 1, errors: 0, skipped: 1 }",
+  )
+}
+
+///|
+test "sums multiple junit suites" {
+  let xml = "<testsuites><testsuite name=\"unit\" tests=\"2\" failures=\"0\" errors=\"0\" skipped=\"0\" /><testsuite name=\"integration\" tests=\"4\" failures=\"0\" errors=\"1\" skipped=\"1\" /></testsuites>"
+  let summary = parse_junit_summary(xml).unwrap()
+  assert_eq(summary.tests, 6)
+  assert_eq(summary.failures, 0)
+  assert_eq(summary.errors, 1)
+  assert_eq(summary.skipped, 1)
+  assert_true(summary.status() == failed())
+}
+
+///|
+test "parses root-only junit counters" {
+  let xml = "<testsuites tests=\"5\" failures=\"0\" errors=\"0\" skipped=\"2\" />"
+  let summary = parse_junit_summary(xml).unwrap()
+  assert_eq(summary.tests, 5)
+  assert_eq(summary.skipped, 2)
+  assert_true(summary.status() == passed())
+}
+
+///|
+test "junit entry preserves command and status" {
+  let entry = junit_entry(
+    "junit",
+    "JUnit report",
+    "<testsuite tests=\"1\" failures=\"0\" errors=\"0\" skipped=\"0\" />",
+    command="pytest --junitxml=report.xml",
+  ).unwrap()
+  assert_true(entry.kind == test_kind())
+  assert_true(entry.status == passed())
+  assert_true(entry.command == Some("pytest --junitxml=report.xml"))
+  assert_true(entry.detail == Some("tests 1, failures 0, errors 0, skipped 0"))
+}
+
+///|
+test "malformed junit yields none" {
+  assert_true(
+    parse_junit_summary("<testsuite name=\"missing counters\" />") is None,
+  )
+  assert_true(junit_entry("junit", "JUnit report", "not xml") is None)
+}

@@ -32,6 +32,7 @@
 - 稳定规范化序列化结果，用于判断两次证据是否完全相同；后续可替换为加密摘要而不改变协议字段。
 - 失败证据查询和最小差异模型。
 - 采集器适配器：从 `moon test` 原始输出解析 `Total tests / passed / failed` 摘要，从 `moon check` 原始输出解析 `warnings / errors` 计数，产出 `Test` / `Build` 证据条目。
+- JUnit XML 适配器：汇总单套件、多套件和 root-only 报告，产出统一的 `Test` 证据条目。
 - Release gate：根据失败证据判定 `ReadyToShip` 或 `Blocked`，并列出阻断条目。
 - 纯 MoonBit SHA-256（FIPS 180-4，无外部依赖）：`sha256_hex`、产物条目的 `digest` 字段和 `bundle.digest()`；使用 NIST 标准向量与独立工具（node/python）双重交叉验证。
 - GitHub Actions CI：在 `wasm-gc` 和 `js` 目标上执行格式检查、检查、构建和测试。

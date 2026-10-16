@@ -145,6 +145,127 @@ pub fn check_run_entry(
 }
 
 ///|
+/// Aggregated counters extracted from JUnit XML `testsuite` elements.
+pub struct JunitSummary {
+  tests : Int
+  failures : Int
+  errors : Int
+  skipped : Int
+} derive(Eq, Debug, ToJson)
+
+///|
+pub fn JunitSummary::status(self : JunitSummary) -> EvidenceStatus {
+  if self.failures == 0 && self.errors == 0 {
+    passed()
+  } else {
+    failed()
+  }
+}
+
+///|
+pub fn JunitSummary::description(self : JunitSummary) -> String {
+  "tests " +
+  self.tests.to_string() +
+  ", failures " +
+  self.failures.to_string() +
+  ", errors " +
+  self.errors.to_string() +
+  ", skipped " +
+  self.skipped.to_string()
+}
+
+///|
+/// Parse numeric counters from JUnit XML `testsuite` elements.
+/// Multiple suites are summed; a root-only `testsuites` document is supported.
+pub fn parse_junit_summary(xml : String) -> JunitSummary? {
+  let mut rest = xml
+  let mut tests = 0
+  let mut failures = 0
+  let mut errors = 0
+  let mut skipped = 0
+  let mut suite_count = 0
+  while true {
+    match rest.find("<testsuite") {
+      None => break
+      Some(index) => {
+        let candidate = rest[index + 10:]
+        if candidate.has_prefix(" ") || candidate.has_prefix(">") {
+          match candidate.find(">") {
+            Some(close) => {
+              let tag = candidate[:close]
+              match junit_count(tag, "tests") {
+                Some(value) => {
+                  tests = tests + value
+                  failures = failures + junit_count_or_zero(tag, "failures")
+                  errors = errors + junit_count_or_zero(tag, "errors")
+                  skipped = skipped + junit_count_or_zero(tag, "skipped")
+                  suite_count = suite_count + 1
+                }
+                None => ()
+              }
+              rest = candidate[close + 1:].to_owned()
+            }
+            None => break
+          }
+        } else {
+          rest = candidate.to_owned()
+        }
+      }
+    }
+  }
+  if suite_count > 0 {
+    Some({ tests, failures, errors, skipped })
+  } else {
+    match xml.find("<testsuites") {
+      Some(index) => {
+        let candidate = xml[index + 10:]
+        match candidate.find(">") {
+          Some(close) => {
+            let tag = candidate[:close]
+            match junit_count(tag, "tests") {
+              Some(tests) =>
+                Some({
+                  tests,
+                  failures: junit_count_or_zero(tag, "failures"),
+                  errors: junit_count_or_zero(tag, "errors"),
+                  skipped: junit_count_or_zero(tag, "skipped"),
+                })
+              None => None
+            }
+          }
+          None => None
+        }
+      }
+      None => None
+    }
+  }
+}
+
+///|
+/// Build a `Test` evidence entry from JUnit XML output.
+pub fn junit_entry(
+  id : String,
+  label : String,
+  xml : String,
+  command? : String,
+) -> EvidenceEntry? {
+  match parse_junit_summary(xml) {
+    Some(summary) =>
+      Some(
+        EvidenceEntry::new(
+          id,
+          test_kind(),
+          summary.status(),
+          label,
+          command?,
+          detail=summary.description(),
+        ),
+      )
+    None => None
+  }
+}
+
+///|
 fn parse_test_run_summary_line(line : StringView) -> TestRunSummary? {
   let mut total : Int? = None
   let mut passed_count : Int? = None
@@ -170,6 +291,23 @@ fn count_value(part : StringView) -> Int? {
   match part.split_once(": ") {
     Some((_, value)) => parse_leading_uint(value)
     None => None
+  }
+}
+
+///|
+fn junit_count(tag : StringView, name : StringView) -> Int? {
+  let marker = (name.to_owned() + "=\"")[:]
+  match tag.find(marker) {
+    Some(index) => parse_leading_uint(tag[index + marker.length():])
+    None => None
+  }
+}
+
+///|
+fn junit_count_or_zero(tag : StringView, name : StringView) -> Int {
+  match junit_count(tag, name) {
+    Some(value) => value
+    None => 0
   }
 }
 

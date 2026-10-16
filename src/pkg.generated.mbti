@@ -26,7 +26,11 @@ pub fn diff(EvidenceBundle, EvidenceBundle) -> EvidenceDiff
 
 pub fn failed() -> EvidenceStatus
 
+pub fn junit_entry(String, String, String, command? : String) -> EvidenceEntry?
+
 pub fn parse_check_summary(String) -> CheckSummary?
+
+pub fn parse_junit_summary(String) -> JunitSummary?
 
 pub fn parse_test_run_summary(String) -> TestRunSummary?
 
@@ -108,6 +112,15 @@ pub enum GateDecision {
 } derive(Eq, @debug.Debug)
 pub fn GateDecision::blockers(Self) -> Array[EvidenceEntry]
 pub fn GateDecision::is_ready(Self) -> Bool
+
+pub struct JunitSummary {
+  tests : Int
+  failures : Int
+  errors : Int
+  skipped : Int
+} derive(Eq, ToJson, @debug.Debug)
+pub fn JunitSummary::description(Self) -> String
+pub fn JunitSummary::status(Self) -> EvidenceStatus
 
 pub struct TestRunSummary {
   total : Int
