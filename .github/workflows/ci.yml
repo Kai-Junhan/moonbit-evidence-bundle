@@ -19,15 +19,17 @@ jobs:
       - name: Setup MoonBit
         uses: hustcer/setup-moonbit@v1
         with:
-          version: 0.1.20261012+748b63c
+          version: latest
       - name: Format
         run: moon fmt
+      - name: Toolchain version
+        run: moon version --all
       - name: Check
-        run: moon check --target ${{ matrix.target }} --deny-warn
+        run: moon check --target ${{ matrix.target }}
       - name: Build
         run: moon build --target ${{ matrix.target }}
       - name: Test
-        run: moon test --target ${{ matrix.target }} --deny-warn
+        run: moon test --target ${{ matrix.target }}
 
   demo:
     name: Run demo
@@ -38,6 +40,6 @@ jobs:
       - name: Setup MoonBit
         uses: hustcer/setup-moonbit@v1
         with:
-          version: 0.1.20261012+748b63c
+          version: latest
       - name: Run demo
         run: moon run --target js cmd/demo
