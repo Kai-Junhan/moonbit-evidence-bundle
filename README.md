@@ -19,7 +19,7 @@
 - 一个失败诊断是否对应实际提交和产物？
 - 一个发布包能否重放其关键验证步骤？
 
-本项目提供一个平台无关的核心证据模型，后续通过适配器接入 Moon CLI、SARIF、JUnit、coverage、benchmark、SPDX/CycloneDX 和 Moocakes 元数据。
+本项目提供一个平台无关的核心证据模型，通过适配器接入 Moon CLI、JUnit 等外部结果；未来可保存 SARIF、coverage、benchmark、SPDX/CycloneDX 和 Moocakes 元数据的引用，但不复制这些工具的实现。
 
 ## 核心能力
 
@@ -125,6 +125,12 @@ moon run --target js cmd/demo
 - `moon-hive`、`moon-proof`：不替代工具链诊断和文档示例验证，而是统一这些工具产生的证据。
 
 项目的独立边界是：**Evidence Bundle 数据模型、可复现指纹、跨工具证据关联和发布前差异分析**。
+
+### Mooncakes 功能边界核验
+
+`Kai-Junhan/moonbit-evidence-bundle@0.1.0` 已发布并可通过 Mooncakes 搜索 API 检索。发布包的功能是证据协议、Moon CLI/JUnit 结果适配、规范化序列化、SHA-256、校验、diff 和 release gate。
+
+搜索结果中出现的其他包即使在描述中提到 “evidence bundle”，其功能也不同：本项目不做 `MoonSecureCodec` 的 Merkle/SBOM 供应链清单，不做 `lockwire` 的测试运行底座，不做 `isoproject` 的工程工作台/运行时观测，也不做 workflow、telemetry、dependency scanner 或 registry 服务。这里的证据包是跨工具结果的稳定交换格式，而不是这些领域系统的替代品。完整检索与边界记录见 `MOONCAKES_BOUNDARY.md`。
 
 ## 证据包格式（format_version 0.1）
 
