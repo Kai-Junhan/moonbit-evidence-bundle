@@ -1,7 +1,7 @@
 # moonbit-evidence-bundle
 
 [![CI](https://github.com/Kai-Junhan/moonbit-evidence-bundle/actions/workflows/ci.yml/badge.svg)](https://github.com/Kai-Junhan/moonbit-evidence-bundle/actions/workflows/ci.yml)
-[![Mooncakes](https://img.shields.io/badge/Mooncakes-v0.1.0-2ea44f)](https://mooncakes.io/)
+[![Mooncakes](https://img.shields.io/badge/Mooncakes-v0.2.0-2ea44f)](https://mooncakes.io/)
 
 `moonbit-evidence-bundle` 是一个面向 MoonBit 项目交付、复现和发布治理的证据包协议与工具链。
 
@@ -131,7 +131,7 @@ moon run --target js cmd/demo
 
 ### Mooncakes 功能边界核验
 
-`Kai-Junhan/moonbit-evidence-bundle@0.1.0` 已发布并可通过 Mooncakes 搜索 API 检索。发布包的功能是证据协议、Moon CLI/JUnit 结果适配、规范化序列化、SHA-256、校验、diff 和 release gate。
+`Kai-Junhan/moonbit-evidence-bundle@0.2.0` 已发布并可通过 Mooncakes 搜索 API 检索。发布包的功能是证据协议、Moon CLI/JUnit 结果适配、规范化序列化、SHA-256、校验、证据关联、策略评估、diff 和 release gate。
 
 搜索结果中出现的其他包即使在描述中提到 “evidence bundle”，其功能也不同：本项目不做 `MoonSecureCodec` 的 Merkle/SBOM 供应链清单，不做 `lockwire` 的测试运行底座，不做 `isoproject` 的工程工作台/运行时观测，也不做 workflow、telemetry、dependency scanner 或 registry 服务。这里的证据包是跨工具结果的稳定交换格式，而不是这些领域系统的替代品。完整检索与边界记录见 `MOONCAKES_BOUNDARY.md`。
 

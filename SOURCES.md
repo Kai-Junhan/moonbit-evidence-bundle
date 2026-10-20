@@ -22,7 +22,7 @@ The final pre-review search was run against the Mooncakes search API on 2026-10-
 - `provenance`
 - `moonbit-evidence-bundle`
 
-The exact published package was found as `Kai-Junhan/moonbit-evidence-bundle@0.1.0`, with repository `https://github.com/Kai-Junhan/moonbit-evidence-bundle` and MIT license. The search also returned unrelated packages whose descriptions mention evidence bundles, including `wch6766/MoonSecureCodec`, `mokomoking2501/lockwire`, and `mokomoking2501/isoproject`.
+The exact published package was found as `Kai-Junhan/moonbit-evidence-bundle@0.2.0`, with repository `https://github.com/Kai-Junhan/moonbit-evidence-bundle` and MIT license. The search also returned unrelated packages whose descriptions mention evidence bundles, including `wch6766/MoonSecureCodec`, `mokomoking2501/lockwire`, and `mokomoking2501/isoproject`.
 
 Relevant existing projects include `moonbitlang/workflow`, `mizchi/bitflow`, `MoonFrame`, `moon_databridge`, `moon-data-contract`, `moon-stream-quality`, `eventrail`, `moonreplaykit`, `moon_tracelens`, `moon_tracekit`, `moonsarif`, `moonreport`, `moon-hive`, `moon-proof`, `moonschema` and `json-schema`.
 
