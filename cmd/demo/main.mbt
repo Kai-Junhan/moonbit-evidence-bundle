@@ -90,6 +90,31 @@ fn main {
         " issues)",
       )
   }
+  println("")
+  println("evidence policy:")
+  let policy = @evidence.ReleasePolicy::new(["build", "tests"], ["report"])
+  match @evidence.evaluate_policy(first, policy) {
+    @evidence.Allowed => println("incomplete input: allowed")
+    @evidence.Blocked(reasons) => {
+      println("incomplete input: blocked")
+      for reason in reasons {
+        println("  reason: " + reason)
+      }
+    }
+  }
+  let complete = first.add(
+    @evidence.artifact_entry(
+      "report",
+      "release report",
+      "release report for " + first.project_name(),
+      requires=["tests"],
+    ),
+  )
+  match @evidence.evaluate_policy(complete, policy) {
+    @evidence.Allowed => println("complete input: allowed")
+    @evidence.Blocked(reasons) =>
+      println("complete input: blocked by " + reasons.length().to_string())
+  }
 }
 
 ///|

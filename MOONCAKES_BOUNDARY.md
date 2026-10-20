@@ -7,7 +7,7 @@ Review date: 2026-10-19
 The exact package is published and searchable:
 
 - Package: `Kai-Junhan/moonbit-evidence-bundle`
-- Version: `0.1.0`
+- Version: `0.2.0` (protocol adds explicit `requires` links and release policy evaluation)
 - Repository: `https://github.com/Kai-Junhan/moonbit-evidence-bundle`
 - License: `MIT`
 - Search API: `https://mooncakes.io/api/v0/search?kw=moonbit-evidence-bundle&limit=20`
@@ -32,6 +32,7 @@ This project provides a portable data protocol and pure transformation functions
 - canonical serialization and SHA-256 digesting
 - structural validation, bundle diff and failed-evidence query
 - release gate based on failed evidence
+- evidence policy evaluation with required evidence IDs, required artifact IDs, provenance links and fail-closed reasons
 
 This project does not provide:
 

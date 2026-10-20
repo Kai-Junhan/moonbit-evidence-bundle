@@ -26,6 +26,8 @@ fn main {
   println(bundle.as_json().stringify(indent=2))
   println("digest: " + bundle.digest())
   println("validation: " + bundle_validation_text(@evidence.validate(bundle)))
+  let policy = @evidence.ReleasePolicy::new(["tests", "check"], [])
+  println("policy: " + policy_text(@evidence.evaluate_policy(bundle, policy)))
   match @evidence.release_gate(bundle) {
     @evidence.ReadyToShip => println("release gate: ready")
     @evidence.Blocked(blockers) =>
@@ -39,5 +41,14 @@ fn bundle_validation_text(result : @evidence.BundleValidation) -> String {
     @evidence.Valid => "valid"
     @evidence.Invalid(issues) =>
       "invalid (" + issues.length().to_string() + " issues)"
+  }
+}
+
+///|
+fn policy_text(result : @evidence.PolicyDecision) -> String {
+  match result {
+    @evidence.Allowed => "allowed"
+    @evidence.Blocked(reasons) =>
+      "blocked: " + reasons.length().to_string() + " reasons"
   }
 }

@@ -35,6 +35,7 @@
 - JUnit XML 适配器：汇总单套件、多套件和 root-only 报告，产出统一的 `Test` 证据条目。
 - Release gate：根据失败证据判定 `ReadyToShip` 或 `Blocked`，并列出阻断条目。
 - Bundle validation：校验协议版本、必填字段、entry ID 唯一性和 SHA-256 digest 格式。
+- Evidence policy：声明必须存在的检查和产物，验证证据关联、上游失败和产物 digest，缺失时 fail closed。
 - 纯 MoonBit SHA-256（FIPS 180-4，无外部依赖）：`sha256_hex`、产物条目的 `digest` 字段和 `bundle.digest()`；使用 NIST 标准向量与独立工具（node/python）双重交叉验证。
 - GitHub Actions CI：在 `wasm-gc` 和 `js` 目标上执行格式化、检查、构建和测试。
 - Expect Snapshot Test，锁定协议输出。
@@ -80,6 +81,8 @@ moon run --target js examples/junit
 ```sh
 moon run --target js cmd/demo
 ```
+
+`cmd/demo` 还会展示一个完整策略案例：输入只有 `build` 和 `tests` 时输出 `Blocked`，原因是 `missing required artifact: report`；补上带 SHA-256 且要求 `tests` 的 `report` 后输出 `Allowed`。更多输入、bundle 和判定结果见 `CASES.md`。
 
 ## 产品路线
 
@@ -203,7 +206,7 @@ Demo 会生成两次内存中的证据包：第一次全部通过，第二次包
 - 协议层、采集器和差异分析测试。
 - MoonBit 多目标构建记录。
 - GitHub Actions 持续集成，覆盖格式化、检查、构建和测试。
-- Mooncakes 包 `Kai-Junhan/moonbit-evidence-bundle@0.1.0`。
+- Mooncakes 包 `Kai-Junhan/moonbit-evidence-bundle@0.2.0`。
 - 演示视频：从 Moon 项目执行检查到生成 bundle，再到两次 bundle diff。
 
 ## 许可证

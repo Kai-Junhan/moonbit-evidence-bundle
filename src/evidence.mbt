@@ -69,6 +69,7 @@ pub struct EvidenceEntry {
   command : String?
   detail : String?
   digest : String?
+  requires : Array[String]
 } derive(Eq, Debug, ToJson)
 
 ///|
@@ -88,8 +89,13 @@ pub fn EvidenceEntry::new(
   command? : String,
   detail? : String,
   digest? : String,
+  requires? : Array[String],
 ) -> EvidenceEntry {
-  { id, kind, status, label, command, detail, digest }
+  let requires = match requires {
+    Some(requires) => requires
+    None => []
+  }
+  { id, kind, status, label, command, detail, digest, requires }
 }
 
 ///|
@@ -100,6 +106,7 @@ pub fn artifact_entry(
   content : String,
   command? : String,
   detail? : String,
+  requires? : Array[String],
 ) -> EvidenceEntry {
   EvidenceEntry::new(
     id,
@@ -109,6 +116,7 @@ pub fn artifact_entry(
     command?,
     detail?,
     digest=sha256_hex(content),
+    requires?,
   )
 }
 
@@ -133,6 +141,19 @@ pub fn EvidenceBundle::add(
 ///|
 pub fn EvidenceBundle::entry_count(self : EvidenceBundle) -> Int {
   self.entries.length()
+}
+
+///|
+pub fn EvidenceBundle::find(
+  self : EvidenceBundle,
+  id : String,
+) -> EvidenceEntry? {
+  for entry in self.entries {
+    if entry.id == id {
+      return Some(entry)
+    }
+  }
+  None
 }
 
 ///|

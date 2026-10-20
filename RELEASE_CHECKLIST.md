@@ -30,7 +30,7 @@ This checklist maps the repository to the MoonBit Hackathon acceptance requireme
 
 ## Before Submission
 
-- [x] Publish `Kai-Junhan/moonbit-evidence-bundle` to Mooncakes at `0.1.0`
+- [ ] Publish `Kai-Junhan/moonbit-evidence-bundle` to Mooncakes at `0.2.0` after protocol update
 - [x] Confirm the authenticated Mooncakes username is `Kai-Junhan`
 - [x] Confirm the latest GitHub Actions run is green
 - [ ] Submit the one-page proposal with at least three concrete use cases; draft: `PROPOSAL_DRAFT.md`
